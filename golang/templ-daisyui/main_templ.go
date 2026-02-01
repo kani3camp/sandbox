@@ -31,7 +31,7 @@ func layout(contents templ.Component) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html data-theme=\"cupcake\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><script src=\"https://unpkg.com/htmx.org@1.9.12\"></script><link href=\"https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css\" rel=\"stylesheet\" type=\"text/css\"><script src=\"https://cdn.tailwindcss.com\"></script><title>Go + Templ + htmx</title></head><body class=\"p-10 bg-base-200 min-h-screen\"><div class=\"max-w-md mx-auto\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!doctype html><html data-theme=\"cupcake\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\"><script src=\"https://unpkg.com/htmx.org@1.9.12\"></script><link href=\"https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css\" rel=\"stylesheet\" type=\"text/css\"><script src=\"https://cdn.tailwindcss.com\"></script><title>Go + Templ + daisyUI V2</title></head><body class=\"bg-base-200 min-h-screen\"><div class=\"navbar bg-base-100 shadow-md mb-8\"><div class=\"flex-1\"><a class=\"btn btn-ghost text-xl\">Htmx × Go</a></div><div class=\"flex-none\"><select class=\"select select-bordered select-sm mr-4\" data-choose-theme><option value=\"cupcake\">🧁 Cupcake</option> <option value=\"dark\">🌙 Dark</option> <option value=\"retro\">📻 Retro</option> <option value=\"cyberpunk\">🤖 Cyberpunk</option></select></div></div><div class=\"max-w-md mx-auto\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -39,7 +39,7 @@ func layout(contents templ.Component) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div></body></html>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "</div><script src=\"https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js\"></script></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -68,20 +68,53 @@ func counter(count int) templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div id=\"counter-card\" class=\"card bg-white shadow-2xl items-center p-8 text-center\"><h1 class=\"text-2xl font-bold mb-4\">htmx カウンター</h1><div class=\"stats shadow mb-6\"><div class=\"stat\"><div class=\"stat-title\">現在の数</div><div class=\"stat-value text-secondary\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div id=\"counter-card\" class=\"card bg-base-100 shadow-2xl items-center p-10 text-center relative\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if count > 0 {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<div class=\"badge badge-accent absolute -top-2 -right-2 p-4 animate-bounce\">Counted!</div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<h1 class=\"text-3xl font-black mb-6 italic text-primary\">Power of daisyUI</h1><div class=\"stats shadow bg-primary text-primary-content mb-8 w-full\"><div class=\"stat\"><div class=\"stat-title text-primary-content opacity-70\">現在の数値</div><div class=\"stat-value text-5xl\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprint(count))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `main.templ`, Line: 31, Col: 62}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `main.templ`, Line: 52, Col: 64}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "</div></div></div><button hx-post=\"/increment\" hx-target=\"#counter-card\" hx-swap=\"outerHTML\" class=\"btn btn-primary btn-wide\">＋1 する</button></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div><div class=\"stat-desc text-primary-content\">サーバーから直接返却</div></div></div><div class=\"card-actions w-full\"><button hx-post=\"/increment\" hx-target=\"#counter-card\" hx-swap=\"outerHTML\" class=\"btn btn-primary btn-block text-lg\"><span class=\"htmx-indicator loading loading-spinner loading-md\"></span> <span>＋1 追加する</span></button></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if count > 0 {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<div id=\"toast-success\" class=\"toast toast-end\"><div class=\"alert alert-success\"><span>カウントを ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprint(count))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `main.templ`, Line: 72, Col: 61}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, " に更新しました！</span></div><script>setTimeout(() => document.getElementById('toast-success').remove(), 3000)</script></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

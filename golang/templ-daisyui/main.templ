@@ -3,42 +3,76 @@ package main
 import "fmt"
 
 templ layout(contents templ.Component) {
-	<!DOCTYPE html>
-	<html data-theme="cupcake">
-		<head>
-			<meta charset="UTF-8"/>
-			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			<script src="https://unpkg.com/htmx.org@1.9.12"></script>
-			<link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css"/>
-			<script src="https://cdn.tailwindcss.com"></script>
-			<title>Go + Templ + htmx</title>
-		</head>
-		<body class="p-10 bg-base-200 min-h-screen">
-			<div class="max-w-md mx-auto">
-				@contents
-			</div>
-		</body>
-	</html>
+    <!DOCTYPE html>
+    <html data-theme="cupcake"> // デフォルトテーマ
+        <head>
+            <meta charset="UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+            <link href="https://cdn.jsdelivr.net/npm/daisyui@4.10.2/dist/full.min.css" rel="stylesheet" type="text/css"/>
+            <script src="https://cdn.tailwindcss.com"></script>
+            <title>Go + Templ + daisyUI V2</title>
+        </head>
+        <body class="bg-base-200 min-h-screen">
+            <div class="navbar bg-base-100 shadow-md mb-8">
+                <div class="flex-1">
+                    <a class="btn btn-ghost text-xl">Htmx × Go</a>
+                </div>
+                <div class="flex-none">
+                    <select class="select select-bordered select-sm mr-4" data-choose-theme>
+                        <option value="cupcake">🧁 Cupcake</option>
+                        <option value="dark">🌙 Dark</option>
+                        <option value="retro">📻 Retro</option>
+                        <option value="cyberpunk">🤖 Cyberpunk</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="max-w-md mx-auto">
+                @contents
+            </div>
+
+            <script src="https://cdn.jsdelivr.net/npm/theme-change@2.0.2/index.js"></script>
+        </body>
+    </html>
 }
 
 templ counter(count int) {
-	<div id="counter-card" class="card bg-white shadow-2xl items-center p-8 text-center">
-		<h1 class="text-2xl font-bold mb-4">htmx カウンター</h1>
+    <div id="counter-card" class="card bg-base-100 shadow-2xl items-center p-10 text-center relative">
 
-		<div class="stats shadow mb-6">
-			<div class="stat">
-				<div class="stat-title">現在の数</div>
-				<div class="stat-value text-secondary">{ fmt.Sprint(count) }</div>
-			</div>
-		</div>
+        if count > 0 {
+            <div class="badge badge-accent absolute -top-2 -right-2 p-4 animate-bounce">Counted!</div>
+        }
 
-		<button
-			hx-post="/increment"
-			hx-target="#counter-card"
-			hx-swap="outerHTML"
-			class="btn btn-primary btn-wide"
-		>
-			＋1 する
-		</button>
-	</div>
+        <h1 class="text-3xl font-black mb-6 italic text-primary">Power of daisyUI</h1>
+
+        <div class="stats shadow bg-primary text-primary-content mb-8 w-full">
+          <div class="stat">
+            <div class="stat-title text-primary-content opacity-70">現在の数値</div>
+            <div class="stat-value text-5xl">{ fmt.Sprint(count) }</div>
+            <div class="stat-desc text-primary-content">サーバーから直接返却</div>
+          </div>
+        </div>
+
+        <div class="card-actions w-full">
+            <button
+                hx-post="/increment"
+                hx-target="#counter-card"
+                hx-swap="outerHTML"
+                class="btn btn-primary btn-block text-lg"
+            >
+                <span class="htmx-indicator loading loading-spinner loading-md"></span>
+                <span>＋1 追加する</span>
+            </button>
+        </div>
+
+        if count > 0 {
+            <div id="toast-success" class="toast toast-end">
+                <div class="alert alert-success">
+                    <span>カウントを { fmt.Sprint(count) } に更新しました！</span>
+                </div>
+                <script>setTimeout(() => document.getElementById('toast-success').remove(), 3000)</script>
+            </div>
+        }
+    </div>
 }
